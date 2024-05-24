@@ -19,4 +19,19 @@ contract KingbaCrownNFT is ERC721URIStorage, Ownable {
         _setTokenURI(newItemId, tokenURI);
         return newItemId;
     }
+
+    function tokensOfOwner(address owner) external view returns (uint256[] memory) {
+        uint256 tokenCount = balanceOf(owner);
+        uint256[] memory tokenIds = new uint256[](tokenCount);
+        uint256 counter = 0;
+
+        for (uint256 i = 1; i <= _tokenIds; i++) {
+            if (ownerOf(i) == owner) {
+                tokenIds[counter] = i;
+                counter++;
+            }
+        }
+
+        return tokenIds;
+    }
 }
