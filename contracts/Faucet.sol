@@ -20,13 +20,14 @@ contract Faucet is Ownable {
     }
 
     function drip() external {
-        require(block.timestamp >= nextRequestAt[msg.sender], "Faucet: Cooldown period not yet passed");
+        address sender = msg.sender;
+        require(block.timestamp >= nextRequestAt[sender], "Faucet: Cooldown period not yet passed");
         require(address(this).balance >= dripAmount, "Faucet: Insufficient balance");
 
-        nextRequestAt[msg.sender] = block.timestamp + cooldownTime;
-        payable(msg.sender).sendValue(dripAmount);
+        nextRequestAt[sender] = block.timestamp + cooldownTime;
+        payable(sender).sendValue(dripAmount);
 
-        emit Dripped(msg.sender, dripAmount);
+        emit Dripped(sender, dripAmount);
     }
 
     function setDripAmount(uint256 _dripAmount) external onlyOwner {

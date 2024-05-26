@@ -40,18 +40,7 @@ async function main() {
         const dripAmount = ethers.utils.parseEther("0.1"); // Drip amount in ETH
         const cooldownTime = 3600; // Cooldown time in seconds
         const initialDeposit = ethers.utils.parseEther("1"); // Initial deposit in ETH
-        const faucetFactory = await ethers.getContractFactory("Faucet");
-        const faucet = await faucetFactory.deploy(dripAmount, cooldownTime, { value: initialDeposit });
-        await faucet.deployed();
-
-        console.log("Faucet deployed to:", faucet.address);
-
-        const faucetInfo = {
-            address: faucet.address,
-            abi: JSON.parse(faucet.interface.format('json')),
-        };
-
-        fs.writeFileSync(`${deployedContractsPath}/Faucet.json`, JSON.stringify(faucetInfo, null, 2));
+        await deployContract("Faucet", dripAmount, cooldownTime, { value: initialDeposit });
     } else {
         console.log("Faucet already deployed");
     }
