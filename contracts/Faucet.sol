@@ -13,21 +13,20 @@ contract Faucet is Ownable {
 
     event Dripped(address indexed recipient, uint256 amount);
 
-    constructor(uint256 _dripAmount, uint256 _cooldownTime) payable Ownable(msg.sender) {
+    constructor(uint256 _dripAmount, uint256 _cooldownTime) payable Ownable() {
         require(msg.value > 0, "Initial deposit must be greater than zero");
         dripAmount = _dripAmount;
         cooldownTime = _cooldownTime;
     }
 
-    function drip() external {
-        address sender = msg.sender;
-        require(block.timestamp >= nextRequestAt[sender], "Faucet: Cooldown period not yet passed");
+    function drip(address recipient) external onlyOwner {
+        require(block.timestamp >= nextRequestAt[recipient], "Faucet: Cooldown period not yet passed");
         require(address(this).balance >= dripAmount, "Faucet: Insufficient balance");
 
-        nextRequestAt[sender] = block.timestamp + cooldownTime;
-        payable(sender).sendValue(dripAmount);
+        nextRequestAt[recipient] = block.timestamp + cooldownTime;
+        payable(recipient).sendValue(dripAmount);
 
-        emit Dripped(sender, dripAmount);
+        emit Dripped(recipient, dripAmount);
     }
 
     function setDripAmount(uint256 _dripAmount) external onlyOwner {
