@@ -1,5 +1,5 @@
 {
-  "address": "0x414f95C2AECDDa48C2828cEcDf0D0239815a881B",
+  "address": "0xdFf7Fb1Ff97830AE4026e04B94Db1199Adb8A8DF",
   "abi": [
     {
       "type": "constructor",
@@ -112,7 +112,12 @@
       "name": "drip",
       "constant": false,
       "payable": false,
-      "inputs": [],
+      "inputs": [
+        {
+          "type": "address",
+          "name": "recipient"
+        }
+      ],
       "outputs": []
     },
     {

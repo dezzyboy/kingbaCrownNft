@@ -13,7 +13,7 @@ contract Faucet is Ownable {
 
     event Dripped(address indexed recipient, uint256 amount);
 
-    constructor(uint256 _dripAmount, uint256 _cooldownTime) payable Ownable() {
+    constructor(uint256 _dripAmount, uint256 _cooldownTime) payable Ownable(msg.sender) {
         require(msg.value > 0, "Initial deposit must be greater than zero");
         dripAmount = _dripAmount;
         cooldownTime = _cooldownTime;
