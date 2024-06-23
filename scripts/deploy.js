@@ -26,10 +26,12 @@ async function main() {
         fs.writeFileSync(`${deployedContractsPath}/${contractName}.json`, JSON.stringify(contractInfo, null, 2));
     };
 
+    const forwarderAddress = '0xEB958aD49c9D8D289CfAE5f9f0150d0D5Bf597C8'; // OpenZeppelin Base Sepolia Forwarder address
+
     // Deploy KingbaCrownNFT if not deployed
     const kingbaCrownNFTPath = `${deployedContractsPath}/KingbaCrownNFT.json`;
     if (!fs.existsSync(kingbaCrownNFTPath)) {
-        await deployContract("KingbaCrownNFT");
+        await deployContract("KingbaCrownNFT", forwarderAddress);
     } else {
         console.log("KingbaCrownNFT already deployed");
     }
